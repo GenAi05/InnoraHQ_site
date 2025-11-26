@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>InnoraHQ – Top AI News</title>
+  <meta name="description" content="InnoraHQ — Top trending AI news, updated automatically." />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>InnoraHQ</h1>
+      <p class="tagline">Top trending AI & technology news — auto updated</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="news-list" class="news-grid">
+      <!-- Cards will be injected here -->
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>© InnoraHQ • Auto-updated AI news</p>
+    </div>
+  </footer>
+
+<script>
+async function loadNews(){
+  try{
+    const resp = await fetch("data/news.json", {cache: "no-store"});
+    const data = await resp.json();
+    const list = document.getElementById("news-list");
+    list.innerHTML = "";
+    if(!data || data.length===0){
+      list.innerHTML = '<p>No news found — update will run soon.</p>';
+      return;
+    }
+    data.forEach(item=>{
+      const card = document.createElement("article");
+      card.className = "news-card";
+      const img = item.image || "https://picsum.photos/900/500?random=1";
+      card.innerHTML = `
+        <a class="card-link" href="${item.url}" target="_blank" rel="noopener">
+          <div class="card-media"><img src="${img}" alt="${escapeHtml(item.title)}"></div>
+          <div class="card-body">
+            <h2 class="card-title">${escapeHtml(item.title)}</h2>
+            <p class="card-meta">${item.source || ""} • ${item.publishedAt ? new Date(item.publishedAt).toLocaleString() : ""}</p>
+            <p class="card-excerpt">${escapeHtml(item.summary || item.description || "")}</p>
+            <span class="readmore">Read full →</span>
+          </div>
+        </a>`;
+      list.appendChild(card);
+    });
+  }catch(e){
+    console.error(e);
+    document.getElementById("news-list").innerHTML = "<p>Error loading news.</p>";
+  }
+}
+function escapeHtml(s){ if(!s) return ""; return s.replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));}
+loadNews();
+</script>
+</body>
+</html>
