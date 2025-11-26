@@ -1,0 +1,10 @@
+{
+  "name": "innorahq-site",
+  "version": "1.0.0",
+  "scripts": {
+    "fetch-news": "node scripts/fetch_news.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}
