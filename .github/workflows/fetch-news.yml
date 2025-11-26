@@ -1,0 +1,38 @@
+name: fetch-news
+
+on:
+  schedule:
+    - cron: '0 * * * *'     # every hour at minute 0 — change as needed
+  workflow_dispatch:         # manual trigger in Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run fetch script
+        env:
+          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
+        run: npm run fetch-news
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "actions@github.com"
+          git add data/news.json || true
+          git commit -m "chore: update top 10 AI news [ci skip]" || echo "no changes to commit"
+          git push
