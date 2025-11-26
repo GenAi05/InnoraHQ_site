@@ -1,0 +1,21 @@
+:root{--wrap:1100px;--accent:#0b5cff}
+*{box-sizing:border-box}
+body{font-family:Inter,Segoe UI,Arial; margin:0; background:#f5f7fb; color:#111}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:18px}
+.site-header{background:#000; color:#fff; padding:22px 0; text-align:center}
+.site-header h1{margin:0; font-size:28px; letter-spacing:1px}
+.tagline{opacity:0.85; margin-top:6px}
+.news-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px}
+.news-card{background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 18px rgba(15,20,30,0.06)}
+.card-link{display:flex; align-items:stretch; text-decoration:none; color:inherit}
+.card-media img{width:320px; height:200px; object-fit:cover; display:block}
+.card-body{padding:14px; flex:1}
+.card-title{font-size:18px; margin:0 0 8px}
+.card-meta{font-size:13px; color:#7a7a7a; margin-bottom:10px}
+.card-excerpt{color:#333; line-height:1.5}
+.readmore{display:inline-block;margin-top:12px;color:var(--accent)}
+.site-footer{padding:16px 0; text-align:center; color:#666; margin-top:30px}
+
+/* responsive */
+@media (max-width:900px){ .news-grid{grid-template-columns:1fr} .card-media img{width:140px;height:110px} .card-link{flex-direction:row}}
+@media (max-width:600px){ .card-media img{display:none} .card-body{padding:12px} }
